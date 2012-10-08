@@ -1,4 +1,5 @@
 <?php
+
 class Execfunctions
 {
 	public function RandomString($length=10,$uc=TRUE,$n=TRUE,$sc=FALSE)

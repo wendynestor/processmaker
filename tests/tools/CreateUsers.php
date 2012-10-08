@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 class CreateUsers
 {
 	protected $client;
