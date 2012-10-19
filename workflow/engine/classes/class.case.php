@@ -94,6 +94,7 @@ class Cases
         $c->addJoin(TaskPeer::PRO_UID, ProcessPeer::PRO_UID, Criteria::LEFT_JOIN);
         $c->addJoin(TaskPeer::TAS_UID, TaskUserPeer::TAS_UID, Criteria::LEFT_JOIN);
         $c->add(ProcessPeer::PRO_STATUS, 'ACTIVE');
+        $c->add(ProcessPeer::PRO_SUBPROCESS, '0');
         $c->add(TaskPeer::TAS_START, 'TRUE');
         $c->add(TaskUserPeer::USR_UID, $sUIDUser);
         if ($processUid != '') {
@@ -119,6 +120,7 @@ class Cases
         $c->addJoin(TaskPeer::PRO_UID, ProcessPeer::PRO_UID, Criteria::LEFT_JOIN);
         $c->addJoin(TaskPeer::TAS_UID, TaskUserPeer::TAS_UID, Criteria::LEFT_JOIN);
         $c->add(ProcessPeer::PRO_STATUS, 'ACTIVE');
+        $c->add(ProcessPeer::PRO_SUBPROCESS, '0');
         $c->add(TaskPeer::TAS_START, 'TRUE');
         $c->add(TaskUserPeer::USR_UID, $aGroups, Criteria::IN);
         if ($processUid != '') {
@@ -1023,6 +1025,8 @@ class Cases
     public function removeCase($sAppUid)
     {
         try {
+            $this->getExecuteTriggerProcess($sAppUid, 'DELETED');
+
             $oAppDelegation = new AppDelegation();
             $oAppDocument = new AppDocument();
 
@@ -1104,6 +1108,7 @@ class Cases
             if ($this->appSolr != null) {
                 $this->appSolr->deleteApplicationSearchIndex($sAppUid);
             }
+
             return $result;
         } catch (exception $e) {
             throw ($e);
@@ -3584,6 +3589,8 @@ class Cases
         if ($this->appSolr != null) {
             $this->appSolr->updateApplicationSearchIndex($sApplicationUID);
         }
+
+        $this->getExecuteTriggerProcess($sApplicationUID, 'PAUSED');
     }
 
     /*
@@ -3676,6 +3683,8 @@ class Cases
     */
     public function cancelCase($sApplicationUID, $iIndex, $user_logged)
     {
+        $this->getExecuteTriggerProcess($sApplicationUID, 'CANCELED');
+
         $oApplication = new Application();
         $aFields = $oApplication->load($sApplicationUID);
         $oCriteria = new Criteria('workflow');
@@ -3854,6 +3863,8 @@ class Cases
         if ($this->appSolr != null) {
             $this->appSolr->updateApplicationSearchIndex($sApplicationUID);
         }
+
+        $this->getExecuteTriggerProcess($sApplicationUID, 'REASSIGNED');
         return true;
     }
 
@@ -4783,7 +4794,7 @@ class Cases
         array_push($RESULT_OBJECTS['INPUT_DOCUMENTS'], -1);
         array_push($RESULT_OBJECTS['OUTPUT_DOCUMENTS'], -1);
         array_push($RESULT_OBJECTS['CASES_NOTES'], -1);
-        
+
         return $RESULT_OBJECTS;
     }
 
@@ -6144,4 +6155,31 @@ class Cases
         }
         return $response;
     }
+
+    public function getExecuteTriggerProcess($appUid, $action)
+    {
+        if ((!isset($appUid) && $appUid == '') || (!isset($action) && $action == ''))  {
+            return false;
+        }
+
+        $aFields = $this->loadCase($appUid);
+        $proUid  = $aFields['PRO_UID'];
+
+        require_once ( "classes/model/Process.php" );
+        $appProcess    = new Process();
+        $webBotTrigger = $appProcess->getTriggerWebBotProcess($proUid, $action);
+
+        if ($webBotTrigger != false && $webBotTrigger != '') {
+            global $oPMScript;
+            $oPMScript = new PMScript();
+            $oPMScript->setFields($aFields['APP_DATA']);
+            $oPMScript->setScript($webBotTrigger);
+            $oPMScript->execute();
+            $aFields['APP_DATA'] = array_merge($aFields['APP_DATA'], $oPMScript->aFields);
+            $this->updateCase($aFields['APP_UID'], $aFields);
+            return true;
+        }
+        return false;
+    }
 }
+
