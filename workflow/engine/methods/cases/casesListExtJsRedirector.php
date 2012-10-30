@@ -24,4 +24,3 @@ if (isset( $_GET['ux'] )) {
 ?>
 }
 </script>
-
