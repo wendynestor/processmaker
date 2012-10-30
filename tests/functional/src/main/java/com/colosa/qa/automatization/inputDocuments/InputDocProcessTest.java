@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization;
+package com.colosa.qa.automatization.inputDocuments;
 
 import java.util.List;
 
