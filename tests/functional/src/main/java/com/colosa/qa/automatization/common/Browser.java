@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.By;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -38,9 +39,11 @@ public class Browser {
 	}
 
 	public static WebElement getElement(String str) throws Exception{
+		if(str==null)
+			throw new Exception("The the search criteria must be specified");
 		str = ConfigurationSettings.getInstance().getSetting(str);
-		//if(str.lastIndexOf("___")==-1)
-			//throw new Exception("The search prefix to find the element must be specified");
+		if(str.lastIndexOf("___")==-1)
+			throw new Exception("The search prefix to find the element must be specified");
 		String[] searchCriteria = str.split("___");
 		WebElement we = null;
 		switch(searchCriteria[0])
