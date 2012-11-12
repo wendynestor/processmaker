@@ -48,6 +48,7 @@ public class Documents extends Page{
 		
 		this.panel =  grid.getRowByColumnValue("Name", fileName);
 		this.panel.click();
+		Browser.getElement("documents.WebElement.Download").click();
 		
 	}
 }

@@ -21,7 +21,7 @@ public class TestDocuments{
 		Pages.Home().gotoDocuments();
 		Pages.Documents().selectFolder("Test 1");
 		Pages.Documents().downloadDocument("default.conf");
-		Browser.getElement("documents.WebElement.Download").click();
+		
 
 	}
 }
