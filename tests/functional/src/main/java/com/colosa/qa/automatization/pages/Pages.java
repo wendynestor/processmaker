@@ -26,9 +26,9 @@ public class Pages{
 		return document;
 	}
 
-	public static DesignerList DesignerList() throws Exception{
-		DesignerList designerList = new DesignerList();
+	public static ProcessList ProcessList() throws Exception{
+		ProcessList processList = new ProcessList();
 
-		return designerList;
+		return processList;
 	}	
 }
