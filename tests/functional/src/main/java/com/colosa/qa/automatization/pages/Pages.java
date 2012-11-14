@@ -24,5 +24,11 @@ public class Pages{
 		Documents document = new Documents();
 
 		return document;
+	}
+
+	public static DesignerList DesignerList() throws Exception{
+		DesignerList designerList = new DesignerList();
+
+		return designerList;
 	}	
 }
