@@ -199,7 +199,7 @@ public class Home extends Main{
 		grid = new ExtJSGrid(Browser.driver().findElement(By.id("casesGrid")), Browser.driver());
 		WebElement row = grid.getRowByColumnValue("#", Integer.toString(numCase));
 		if(row==null)
-			throw new Exception("No se encontro el caso # "+Integer.toString(numCase)+" en la carpeta inbox.");
+			throw new Exception("Case # "+Integer.toString(numCase)+" not found in Inbox folder");
 		action.doubleClick(row.findElement(By.xpath("table/tbody/tr/td[div='"+Integer.toString(numCase)+"']/div")));
         action.perform();
 	}
