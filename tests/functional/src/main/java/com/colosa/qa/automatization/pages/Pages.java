@@ -24,5 +24,23 @@ public class Pages{
 		Documents document = new Documents();
 
 		return document;
+	}
+
+	public static ProcessList ProcessList() throws Exception{
+		ProcessList processList = new ProcessList();
+
+		return processList;
+	}
+
+	public static InputDocProcess InputDocProcess() throws Exception{
+		InputDocProcess inputDocProcess = new InputDocProcess();
+
+		return inputDocProcess;
+	}
+
+	public static OutputDocProcess OutputDocProcess() throws Exception{
+		OutputDocProcess outputDocProcess = new OutputDocProcess();
+
+		return outputDocProcess;
 	}	
 }
