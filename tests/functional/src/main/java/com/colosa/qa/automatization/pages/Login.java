@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
 import com.colosa.qa.automatization.common.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Login extends Page{
 	WebElement systemInformationLink;
@@ -12,34 +14,39 @@ public class Login extends Page{
 	WebElement workspace;
 	WebElement submitButton;
 	WebElement logOutLink;
+	WebElement language;
 
-	public Login(){
-		url = "http://192.168.11.132";
+	public Login() throws FileNotFoundException, IOException{
+		url = ConfigurationSettings.getInstance().getSetting("server.url");
 		pageTitle = "";
 
 		//System.out.println("Login contructor....:" + url); 
 	}
 
-	public void initWebElements(){
-		this.systemInformationLink = Browser.driver.findElement(By.linkText("| System information |"));
-		this.user = Browser.driver.findElement(By.id("form[USR_USERNAME]"));
-		this.password = Browser.driver.findElement(By.id("form[USR_PASSWORD]"));
-		this.workspace = Browser.driver.findElement(By.id("form[USER_ENV]"));
-		this.submitButton = Browser.driver.findElement(By.id("form[BSUBMIT]"));
-		
+	public void initWebElements() throws Exception{
+		this.systemInformationLink = Browser.getElement("login.webElement.systemInformationLink");
+		this.user = Browser.getElement("login.webElement.userName");
+		this.password = Browser.getElement("login.webElement.password");
+		this.workspace = Browser.getElement("login.webElement.workspace");
+		this.submitButton = Browser.getElement("login.webElement.submitButton");
+
+		this.language = Browser.getElement("login.webElement.language");
 	}
 
-	public boolean isAtLoginPage(){
+	public boolean isAtLoginPage() throws Exception{
 		this.initWebElements();
 		return (this.systemInformationLink != null); 
 	}
 
-	public void loginDefaultUser(){
-
-		
+	public void loginDefaultUser() throws Exception{		
+		this.initWebElements();
+		this.user.sendKeys(ConfigurationSettings.getInstance().getSetting("login.defaultUserName"));
+		this.password.sendKeys(ConfigurationSettings.getInstance().getSetting("login.defaultPassword"));
+		this.workspace.sendKeys(ConfigurationSettings.getInstance().getSetting("login.defaultWorkspace"));
+		this.submitButton.click();
 	}
 
-	public void loginUser(String userName, String password, String workspace){
+	public void loginUser(String userName, String password, String workspace) throws Exception{
 		this.initWebElements();
 
 		this.user.sendKeys(userName);
@@ -48,12 +55,9 @@ public class Login extends Page{
 		this.submitButton.click();
 	}
 
+	public boolean isUserLogged() throws Exception{
+		this.logOutLink = Browser.getElement("login.WebElement.logoutButton");
 
-	public boolean isUserLogged(){
-		this.logOutLink = Browser.driver.findElement(By.linkText("Logout"));
-
-		return (this.logOutLink != null);	
+		return (this.logOutLink != null);
 	}
-
-
 }

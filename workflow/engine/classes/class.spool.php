@@ -138,6 +138,7 @@ class spoolRun
      */
     public function create ($aData)
     {
+        $aData['app_msg_show_message'] = (isset($aData['app_msg_show_message'])) ? $aData['app_msg_show_message'] : 1;
         $sUID = $this->db_insert( $aData );
 
         $aData['app_msg_date'] = isset( $aData['app_msg_date'] ) ? $aData['app_msg_date'] : '';
@@ -565,7 +566,13 @@ class spoolRun
                 $row = $rsCriteria->getRow();
 
                 try {
-                    $this->setData( $row["APP_MSG_UID"], $row["APP_MSG_SUBJECT"], $row["APP_MSG_FROM"], $row["APP_MSG_TO"], $row["APP_MSG_BODY"], date( "Y-m-d H:i:s" ), $row["APP_MSG_CC"], $row["APP_MSG_BCC"], $row["APP_MSG_TEMPLATE"], $row["APP_MSG_ATTACH"] );
+                    $sFrom = $row["APP_MSG_FROM"];
+                    $hasEmailFrom = preg_match('/(.+)@(.+)\.(.+)/', $row["APP_MSG_FROM"], $match);
+
+                    if (! $hasEmailFrom || strpos( $row["APP_MSG_FROM"], $setup['MESS_ACCOUNT'] ) === false) {
+                        $sFrom = '"' . stripslashes( $row["APP_MSG_FROM"] ) . '" <' . $setup['MESS_ACCOUNT'] . ">";
+                    }
+                    $this->setData( $row["APP_MSG_UID"], $row["APP_MSG_SUBJECT"], $sFrom, $row["APP_MSG_TO"], $row["APP_MSG_BODY"], date( "Y-m-d H:i:s" ), $row["APP_MSG_CC"], $row["APP_MSG_BCC"], $row["APP_MSG_TEMPLATE"], $row["APP_MSG_ATTACH"] );
 
                     $this->sendMail();
                 } catch (Exception $e) {

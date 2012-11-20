@@ -181,7 +181,7 @@ function getAllUsersArray ($action)
 
     if ($action == 'to_reassign') {
         //now get users, just for the Search action
-        $cUsers = $oAppCache->getToReassignListCriteria();
+        $cUsers = $oAppCache->getToReassignListCriteria(null);
         $cUsers->addSelectColumn( AppCacheViewPeer::USR_UID );
 
         if (g::MySQLSintaxis()) {
@@ -237,7 +237,7 @@ function getStatusArray ($action, $userUid)
             //           $cStatus       = $oAppCache->getPausedListCriteria($userUid);
             break;
         case 'to_reassign':
-            $cStatus = $oAppCache->getToReassignListCriteria();
+            $cStatus = $oAppCache->getToReassignListCriteria($userUid);
             break;
         case 'todo':
         case 'draft':
@@ -427,9 +427,6 @@ function getParticipated ()
     $caseColumns[] = array ('header' => G::LoadTranslation( 'ID_PROCESS' ),'dataIndex' => 'APP_PRO_TITLE','width' => 120
     );
     $caseColumns[] = array ('header' => G::LoadTranslation( 'ID_TASK' ),'dataIndex' => 'APP_TAS_TITLE','width' => 120
-    );
-    //$caseColumns[] = array( 'header' => G::LoadTranslation('ID_SENT_BY'),     'dataIndex' => 'APP_DEL_PREVIOUS_USER', 'width' => 120 );
-    $caseColumns[] = array ('header' => G::LoadTranslation( 'ID_CURRENT_USER' ),'dataIndex' => 'APP_CURRENT_USER','width' => 120,'sortable' => false
     );
     $caseColumns[] = array ('header' => G::LoadTranslation( 'ID_LAST_MODIFY' ),'dataIndex' => 'APP_UPDATE_DATE','width' => 80
     );
