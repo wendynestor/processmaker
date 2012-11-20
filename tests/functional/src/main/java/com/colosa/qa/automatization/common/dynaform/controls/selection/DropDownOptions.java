@@ -3,6 +3,7 @@ package com.colosa.qa.automatization.common.dynaform.controls.selection;
 import com.colosa.qa.automatization.common.Browser;
 import com.colosa.qa.automatization.common.dynaform.controls.ControlOptions;
 import com.colosa.qa.automatization.common.dynaform.controls.selection.DropDownOption;
+import com.colosa.qa.automatization.common.dynaform.controls.DependentFieldsApplicableOption;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -11,8 +12,16 @@ public class DropDownOptions extends ControlOptions{
 
 	private ArrayList<DropDownOption> options = new ArrayList<DropDownOption>();
 
+	public DropDownOptions(){
+		this.dependentFieldsApplicableBehavior = new DependentFieldsApplicableOption();
+	}
+
 	public void addOption(String label, String value){
 		options.add(new DropDownOption(label, value));
+	}
+
+	public void addDependentField(String fieldName){
+		super.addDependentField(fieldName);
 	}
 
 	@Override

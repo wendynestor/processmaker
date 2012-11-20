@@ -1,6 +1,6 @@
 package com.colosa.qa.automatization.common.dynaform.controls.selection;
 
-internal class DropDownOption{
+class DropDownOption{
 	
 	private String key = null;
 	private String value = null;

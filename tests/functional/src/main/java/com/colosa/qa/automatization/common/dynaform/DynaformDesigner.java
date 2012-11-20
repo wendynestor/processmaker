@@ -7,6 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import java.util.*;
 import com.colosa.qa.automatization.common.dynaform.controls.input.TextFieldOptions;
+import com.colosa.qa.automatization.common.dynaform.controls.input.PasswordOptions;
+import com.colosa.qa.automatization.common.dynaform.controls.input.TextAreaOptions;
+import com.colosa.qa.automatization.common.dynaform.controls.input.SuggestOptions;
 import com.colosa.qa.automatization.common.dynaform.controls.selection.DropDownOptions;
 
 public class DynaformDesigner{
@@ -61,6 +64,24 @@ public class DynaformDesigner{
 
 	public void addDropDown(DropDownOptions options) throws Exception{
 		this.toolbar.get("dropdown").click();
+		options.fillForm();
+		this.sendModalForm();
+	}
+
+	public void addTextArea(TextAreaOptions options) throws Exception{
+		this.toolbar.get("text area").click();
+		options.fillForm();
+		this.sendModalForm();
+	}
+
+	public void addPassword(PasswordOptions options) throws Exception{
+		this.toolbar.get("password").click();
+		options.fillForm();
+		this.sendModalForm();
+	}
+
+	public void addSuggest(SuggestOptions options) throws Exception{
+		this.toolbar.get("suggest").click();
 		options.fillForm();
 		this.sendModalForm();
 	}

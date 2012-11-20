@@ -89,11 +89,12 @@ public class Browser {
 	}
 
 	private static String[] getSearchCriteria(String str, Object... args) throws Exception{		
+		String key = str;
 		if(str==null)
 			throw new Exception("The the search criteria must be specified");
 		str = ConfigurationSettings.getInstance().getSetting(str);
 		if(str == null)
-			throw new Exception("There's no value for the key: "+str);
+			throw new Exception("There's no value for the key: "+key);
 		str = String.format(str, args);
 		if(str.lastIndexOf("___")==-1)
 			throw new Exception("The search prefix to find the element must be specified");
