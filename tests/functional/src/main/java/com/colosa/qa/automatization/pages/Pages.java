@@ -63,6 +63,7 @@ public class Pages{
 	}
 
 	public static DynaformDesigner DynaformDesigner() throws Exception{
+		
 		return new DynaformDesigner();
 	}
 }
