@@ -24,6 +24,10 @@ public class DropDownOptions extends ControlOptions{
 		super.addDependentField(fieldName);
 	}
 
+	public void setDefaultValue(String value){
+		this.defaultValue = value;
+	}
+
 	@Override
 	public void fillForm() throws Exception{
 		super.fillForm();

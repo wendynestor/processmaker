@@ -7,13 +7,13 @@ import org.openqa.selenium.WebElement;
 
 public class ControlOptions{
 
-	public String fieldName = null;
-	public String label = "";
-	public Boolean required = false;
+	protected String fieldname = null;
+	protected String label = "";
+	protected Boolean required = false;
 	protected Boolean readOnly = false; 
 	private ArrayList<String> dependentFields = new ArrayList<String>();
 	protected String defaultValue = null;
-	public String hint = "";
+	protected String hint = "";
 	public Mode mode = Mode.EDIT;
 	protected SQLConnection sqlConnection = null; 
 	protected String sql = null;
@@ -58,27 +58,32 @@ public class ControlOptions{
 	}
 
 	protected void fillForm() throws Exception{
-		if(this.fieldName == null || this.fieldName.trim().equals(""))
+		if(this.fieldname == null || this.fieldname.trim().equals(""))
 			throw new Exception("The control name must be specified");
-		WebElement we = null;
 		Select ddown = null;
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(this.fieldName);
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(this.fieldname);
 		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(this.label);
-		
-		we = Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.required"); 
-		if(this.required != we.isSelected())
-			we.click();
+		this.fillRequired();
 		this.fillReadOnly();
 		this.fillDependentFields();
 		this.fillDefaultValue();
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.hint").sendKeys(this.hint);
 		ddown = new Select(Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.mode"));
 		ddown.selectByValue(this.mode.getValue());
 		this.fillSQLConnection();
 		this.fillSQL();
 	}
 
-	protected void addDependentField(String fieldName){
-		this.dependentFields.add(fieldName);
+	protected void addDependentField(String fieldname){
+		this.dependentFields.add(fieldname);
+	}
+
+	public void setFieldName(String fieldname){
+		this.fieldname = fieldname;
+	}
+
+	public void setLabel(String label){
+		this.label = label;
 	}
 
 	public void setSQL(String sql){
@@ -93,12 +98,34 @@ public class ControlOptions{
 		this.readOnly = readOnly;
 	}
 
+	public void setRequired(Boolean required){
+		this.required = required;
+	}
+
+	public void setHint(String hint){
+		this.hint = hint;
+	}
+
+	public void setMode(Mode mode){
+		this.mode = mode;
+	}	
+
+	private void fillRequired() throws Exception{
+		if(this.required == null)
+			return;
+		WebElement we = null;
+		we = Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.required"); 
+		if(this.required != we.isSelected())
+			we.click();
+
+	}
+
 	private void fillDependentFields() throws Exception{
 		if(this.dependentFields != null)
 			this.dependentFieldsApplicableBehavior.fillDependentFields(this.dependentFields);
 	}
 
-	private void fillDefaultValue() throws Exception{
+	protected void fillDefaultValue() throws Exception{
 		if(this.defaultValue == null)
 			return;
 		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.defaultValue").sendKeys(this.defaultValue);
