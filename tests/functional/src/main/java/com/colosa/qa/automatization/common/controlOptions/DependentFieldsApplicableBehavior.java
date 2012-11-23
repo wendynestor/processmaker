@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization.common.dynaform.controls;
+package com.colosa.qa.automatization.common.controlOptions;
 
 import java.util.ArrayList;
 

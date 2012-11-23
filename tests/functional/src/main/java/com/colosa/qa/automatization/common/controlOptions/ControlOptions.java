@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization.common.dynaform.controls;
+package com.colosa.qa.automatization.common.controlOptions;
 
 import java.util.ArrayList;
 import com.colosa.qa.automatization.common.Browser;
@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class ControlOptions{
 
-	protected String fieldname = null;
-	protected String label = "";
+	//protected String fieldname = null;
+	//protected String label = "";
 	protected Boolean required = false;
 	protected Boolean readOnly = false; 
 	private ArrayList<String> dependentFields = new ArrayList<String>();
@@ -58,11 +58,7 @@ public class ControlOptions{
 	}
 
 	protected void fillForm() throws Exception{
-		if(this.fieldname == null || this.fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
 		Select ddown = null;
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(this.fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(this.label);
 		this.fillRequired();
 		this.fillReadOnly();
 		this.fillDependentFields();
@@ -77,14 +73,14 @@ public class ControlOptions{
 	protected void addDependentField(String fieldname){
 		this.dependentFields.add(fieldname);
 	}
-
+/*
 	public void setFieldName(String fieldname){
 		this.fieldname = fieldname;
 	}
 
 	public void setLabel(String label){
 		this.label = label;
-	}
+	}*/
 
 	public void setSQL(String sql){
 		this.sql = sql;

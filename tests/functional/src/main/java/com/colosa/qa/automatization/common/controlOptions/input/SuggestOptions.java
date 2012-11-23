@@ -1,9 +1,9 @@
-package com.colosa.qa.automatization.common.dynaform.controls.input;
+package com.colosa.qa.automatization.common.controlOptions.input;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import com.colosa.qa.automatization.common.Browser;
-import com.colosa.qa.automatization.common.dynaform.controls.input.InputControlOptions;
+import com.colosa.qa.automatization.common.controlOptions.input.InputControlOptions;
 
 public class SuggestOptions extends InputControlOptions{
 
@@ -75,9 +75,15 @@ public class SuggestOptions extends InputControlOptions{
 		this.primaryKey = "0";
 		this.storeNewEntryPrimaryKeyType = StoreNewEntryPrimaryKeyType.NONE;
 	}
+
 	public void setJavascript(String script){
 		this.javascript = script;
 	}
+
+	public void addDependentField(String fieldName){
+		super.addDependentField(fieldName);
+	}
+	
 	public void fillForm() throws Exception{
 		super.fillForm();
 		(new Select(Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.saveSelectedOptionAs"))).selectByValue(this.saveSelectedOptionAs.getValue());

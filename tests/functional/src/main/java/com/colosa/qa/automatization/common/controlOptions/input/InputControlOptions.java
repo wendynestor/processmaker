@@ -1,9 +1,9 @@
-package com.colosa.qa.automatization.common.dynaform.controls.input;
+package com.colosa.qa.automatization.common.controlOptions.input;
 
 import java.util.ArrayList;
 import org.openqa.selenium.WebElement;
 import com.colosa.qa.automatization.common.Browser;
-import com.colosa.qa.automatization.common.dynaform.controls.ControlOptions;
+import com.colosa.qa.automatization.common.controlOptions.ControlOptions;
 import org.openqa.selenium.support.ui.Select;
 
 class InputControlOptions extends ControlOptions{

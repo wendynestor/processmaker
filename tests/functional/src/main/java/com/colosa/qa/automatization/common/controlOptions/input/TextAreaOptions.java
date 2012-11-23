@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization.common.dynaform.controls.input;
+package com.colosa.qa.automatization.common.controlOptions.input;
 
 public class TextAreaOptions extends InputControlOptions{
 

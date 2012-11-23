@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization.common.dynaform.controls.selection;
+package com.colosa.qa.automatization.common.controlOptions.selection;
 
 class DropDownOption{
 	

@@ -1,15 +1,15 @@
-package com.colosa.qa.automatization.common.dynaform;
+package com.colosa.qa.automatization.pages;
 
 import java.lang.Exception;
-import com.colosa.qa.automatization.common.Browser;
+import com.colosa.qa.automatization.common.*;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import java.util.*;
-//import com.colosa.qa.automatization.common.dynaform.controls.ControlOptions;
-import com.colosa.qa.automatization.common.dynaform.controls.input.*;
-import com.colosa.qa.automatization.common.dynaform.controls.selection.*;
-import com.colosa.qa.automatization.common.dynaform.controls.selection.DropDownOptions;
+import com.colosa.qa.automatization.common.controlOptions.input.*;
+import com.colosa.qa.automatization.common.controlOptions.selection.*;
+import com.colosa.qa.automatization.common.controlOptions.selection.DropDownOptions;
 
 public class DynaformDesigner{
 
@@ -19,6 +19,11 @@ public class DynaformDesigner{
 	private WebElement tabBar;
 	private WebElement panelLoader;
 	private WebElement statusBar;
+
+
+	public DynaformDesigner() throws Exception{
+		this(Browser.getElement("processDesigner.webElement.newBlankDynaform.designer"));
+	}
 
 	public DynaformDesigner(WebElement we) throws Exception{
 		WebElement aux = we.findElement(By.cssSelector("#fields_Toolbar"));
@@ -56,101 +61,89 @@ public class DynaformDesigner{
 		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.submitButton").click();
 	}*/
 
+	private void setNames(String fieldname, String label) throws Exception{
+		if(fieldname == null || fieldname.trim().equals(""))
+			throw new Exception("The control name must be specified");
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);
+	}
+
 	private void sendModalForm() throws Exception{
 		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.submitButton").click();
 	}
 
 	public void addTextField(String fieldname, String label, TextFieldOptions options) throws Exception{
 		this.toolbar.get("text field").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addDropDown(String fieldname, String label, DropDownOptions options) throws Exception{
 		this.toolbar.get("dropdown").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addTextArea(String fieldname, String label, TextAreaOptions options) throws Exception{
 		this.toolbar.get("text area").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addPassword(String fieldname, String label, PasswordOptions options) throws Exception{
 		this.toolbar.get("password").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addSuggest(String fieldname, String label, SuggestOptions options) throws Exception{
 		this.toolbar.get("suggest").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addCurrency(String fieldname, String label, NumericOptions options) throws Exception{
 		this.toolbar.get("currency").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addPercentage(String fieldname, String label, NumericOptions options) throws Exception{
 		this.toolbar.get("percentage").click();
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addButton(String fieldname, String label, String javascript) throws Exception{
 		this.toolbar.get("button").click();
-		if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);
+		this.setNames(fieldname, label);
 		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.javascriptToExecuteOnClickButton").sendKeys(javascript);
 		this.sendModalForm();
 	}
 
 	public void addSubmit(String fieldname, String label, String javascript) throws Exception{
 		this.toolbar.get("submit").click();
-		if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);
+		this.setNames(fieldname, label);
 		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.javascriptToExecuteOnClickButton").sendKeys(javascript);
 		this.sendModalForm();
 	}
 
 	public void addReset(String fieldname, String label) throws Exception{
 		this.toolbar.get("reset").click();
-		if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);
+		this.setNames(fieldname, label);
 		this.sendModalForm();
 	}
 
 	public void addTitle(String fieldname, String label, Boolean enableHTML) throws Exception{
 		this.toolbar.get("title").click();
-		if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);
+		this.setNames(fieldname, label);
 		WebElement we = Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.enableHTML");
 		if(enableHTML != we.isSelected())
 			we.click();
@@ -159,10 +152,7 @@ public class DynaformDesigner{
 
 	public void addSubtitle(String fieldname, String content, Boolean enableHTML) throws Exception{
 		this.toolbar.get("title").click();
-		if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(content);
+		this.setNames(fieldname, content);
 		WebElement we = Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.enableHTML");
 		if(enableHTML != we.isSelected())
 			we.click();
@@ -171,26 +161,26 @@ public class DynaformDesigner{
 
 	public void addYesNo(String fieldname, String label, YesNoOptions options) throws Exception{
 		this.toolbar.get("yes no").click();
-		/*if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);*/
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
 	}
 
 	public void addListBox(String fieldname, String label, ListBoxOptions options) throws Exception{
 		this.toolbar.get("listbox").click();
-		if(fieldname == null || fieldname.trim().equals(""))
-			throw new Exception("The control name must be specified");
-		/*Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.fieldName").sendKeys(fieldname);
-		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.label").sendKeys(label);*/
-		options.setFieldName(fieldname);
-		options.setLabel(label);
+		this.setNames(fieldname, label);
 		options.fillForm();
 		this.sendModalForm();
+	}
+
+	public Boolean inPage() throws Exception{
+		return (Browser.driver().getCurrentUrl().indexOf(ConfigurationSettings.getInstance().getSetting("dynaformDesigner.idURL")) >= 0);
+	}
+
+	public Boolean inPage(String formName) throws Exception{
+		if(Browser.getElements("dynaformDesigner.formNameLocation").size() == 0)
+			return false;
+		return (Browser.getElement("dynaformDesigner.formNameLocation").getText().trim().equals(formName.trim())) && this.inPage() ;
 	}
 /*
 	public void addJavascript(String fieldname, String script){
@@ -202,8 +192,21 @@ public class DynaformDesigner{
 		this.sendModalForm();
 	}*/
 
-	public void save(){
+	public Boolean save() throws Exception{
+		this.toolbar.get("save").click();
+        Alert alert = Browser.driver().switchTo().alert();
+        Boolean res = alert.getText().equals("DynaForm is now saved");
+        alert.accept();
+        Browser.driver().switchTo().defaultContent();
+        Browser.driver().switchTo().frame("frameMain");
+        return res;
+	}
 
-	}	
+	public void saveAs(String title, String description) throws Exception{
+		this.toolbar.get("save as").click();
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.saveAs.title").sendKeys(title);
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.saveAs.description").sendKeys(description);
+		Browser.getElement("dynaformDesigner.webElement.blankDynaformModal.saveAs.saveButton").click();
+	}
 
 }

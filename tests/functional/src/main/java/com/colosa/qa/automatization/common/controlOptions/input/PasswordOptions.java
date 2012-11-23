@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization.common.dynaform.controls.input;
+package com.colosa.qa.automatization.common.controlOptions.input;
 
 import org.openqa.selenium.WebElement;
 import com.colosa.qa.automatization.common.Browser;

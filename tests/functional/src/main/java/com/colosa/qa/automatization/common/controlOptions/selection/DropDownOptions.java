@@ -1,9 +1,9 @@
-package com.colosa.qa.automatization.common.dynaform.controls.selection;
+package com.colosa.qa.automatization.common.controlOptions.selection;
 
 import com.colosa.qa.automatization.common.Browser;
-import com.colosa.qa.automatization.common.dynaform.controls.ControlOptions;
-import com.colosa.qa.automatization.common.dynaform.controls.selection.DropDownOption;
-import com.colosa.qa.automatization.common.dynaform.controls.DependentFieldsApplicableOption;
+import com.colosa.qa.automatization.common.controlOptions.ControlOptions;
+import com.colosa.qa.automatization.common.controlOptions.selection.DropDownOption;
+import com.colosa.qa.automatization.common.controlOptions.DependentFieldsApplicableOption;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
