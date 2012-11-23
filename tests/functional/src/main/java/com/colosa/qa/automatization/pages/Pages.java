@@ -18,5 +18,47 @@ public class Pages{
 		Home page = new Home();
 
 		return page;
+	}
+
+	public static Documents Documents() throws Exception{
+		Documents document = new Documents();
+
+		return document;
+	}
+
+	public static ProcessDesigner ProcessDesigner() throws Exception{
+		ProcessDesigner processDesigner = new ProcessDesigner();
+
+		return processDesigner;
+	}
+
+	public static ProcessList ProcessList() throws Exception{
+		ProcessList processList = new ProcessList();
+
+		return processList;
+	}
+
+	public static InputDocProcess InputDocProcess() throws Exception{
+		InputDocProcess inputDocProcess = new InputDocProcess();
+
+		return inputDocProcess;
+	}
+
+	public static OutputDocProcess OutputDocProcess() throws Exception{
+		OutputDocProcess outputDocProcess = new OutputDocProcess();
+
+		return outputDocProcess;
 	}	
+
+	public static InputDocumentList InputDocumentList() throws Exception{
+		InputDocumentList inputdDocList = new InputDocumentList();
+
+		return inputdDocList;
+	}
+
+	public static OutputDocumentList OutputDocumentList() throws Exception{
+		OutputDocumentList outputdDocList = new OutputDocumentList();
+
+		return outputdDocList;
+	}
 }
