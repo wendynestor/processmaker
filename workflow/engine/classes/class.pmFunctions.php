@@ -87,19 +87,13 @@ function getCurrentTime ()
  * @label User Info
  * @link http://wiki.processmaker.com/index.php/ProcessMaker_Functions#userInfo.28.29
  *
- * @param string(32) | $user_id | User ID | The user unique ID
- * @return array | $userInfo | User Info | An associative array with Information
+ * @param string(32) | $userUid | User ID | The user unique ID
+ * @return array | $info | User Info | An associative array with Information
  *
  */
-function userInfo ($user_uid)
+function userInfo($userUid)
 {
-    try {
-        require_once 'classes/model/Users.php';
-        $oUser = new Users();
-        return $oUser->getAllInformation( $user_uid );
-    } catch (Exception $oException) {
-        throw $oException;
-    }
+    return PMFInformationUser($userUid);
 }
 
 /**
@@ -792,12 +786,25 @@ function getEmailConfiguration ()
  * @param string(32) | $sTemplate | Name of the template | The name of the template file in plain text or HTML format which will produce the body of the email.
  * @param array | $aFields | An optional associative array | Optional parameter. An associative array where the keys are the variable names and the values are the variables' values.
  * @param array | $aAttachment | Attachment | An Optional arrray. An array of files (full paths) to be attached to the email.
+ * @param boolean | $showMessage = true | Show message | Optional parameter.
+ * @param int | $delIndex = 0 | Delegation index of the case | Optional parameter. The delegation index of the current task in the case.
  * @return int | $result | result | Result of sending email
  *
  */
 //@param array | $aFields=array() | An associative array optional | Optional parameter. An associative array where the keys are the variable name and the values are the variable's value.
-function PMFSendMessage ($caseId, $sFrom, $sTo, $sCc, $sBcc, $sSubject, $sTemplate, $aFields = array(), $aAttachment = array(), $showMessage = true)
-{
+function PMFSendMessage(
+    $caseId,
+    $sFrom,
+    $sTo,
+    $sCc,
+    $sBcc,
+    $sSubject,
+    $sTemplate,
+    $aFields = array(),
+    $aAttachment = array(),
+    $showMessage = true,
+    $delIndex = 0
+) {
     global $oPMScript;
 
     if (isset( $oPMScript->aFields ) && is_array( $oPMScript->aFields )) {
@@ -808,9 +815,22 @@ function PMFSendMessage ($caseId, $sFrom, $sTo, $sCc, $sBcc, $sSubject, $sTempla
         }
     }
 
-    G::LoadClass( 'wsBase' );
+    G::LoadClass("wsBase");
+
     $ws = new wsBase();
-    $result = $ws->sendMessage( $caseId, $sFrom, $sTo, $sCc, $sBcc, $sSubject, $sTemplate, $aFields, $aAttachment, $showMessage);
+    $result = $ws->sendMessage(
+        $caseId,
+        $sFrom,
+        $sTo,
+        $sCc,
+        $sBcc,
+        $sSubject,
+        $sTemplate,
+        $aFields,
+        $aAttachment,
+        $showMessage,
+        $delIndex
+    );
 
     if ($result->status_code == 0) {
         return 1;
@@ -1109,6 +1129,40 @@ function WSUpdateUser ($userUid, $userName, $firstName = null, $lastName = null,
 
 /**
  *
+ * @method Retrieves information about a user with a given ID.
+ *
+ * @name WSInformationUser
+ * @label WS Information User
+ * @link http://wiki.processmaker.com/index.php/ProcessMaker_Functions#WSInformationUser.28.29
+ *
+ * @param string(32) | $userUid | User UID | The user UID.
+ * @return array | $response | WS array | A WS Response associative array.
+ *
+ */
+function WSInformationUser($userUid)
+{
+    $client = WSOpen();
+
+    $sessionId = $_SESSION["WS_SESSION_ID"];
+
+    $params = array(
+        "sessionId" => $sessionId,
+        "userUid"   => $userUid
+    );
+
+    $result = $client->__soapCall("informationUser", array($params));
+
+    $response = array();
+    $response["status_code"] = $result->status_code;
+    $response["message"]     = $result->message;
+    $response["time_stamp"]  = $result->timestamp;
+    $response["info"] = (isset($result->info))? $result->info : null;
+
+    return $response;
+}
+
+/**
+ *
  * @method Returns the unique ID for the current active session.
  *
  * @name WSGetSession
@@ -1258,6 +1312,49 @@ function WSUnpauseCase ($caseUid, $delIndex, $userUid)
     $response["status_code"] = $result->status_code;
     $response["message"] = $result->message;
     $response["time_stamp"] = $result->timestamp;
+
+    return $response;
+}
+
+/**
+ *
+ * @method Add case note.
+ *
+ * @name WSAddCaseNote
+ * @label WS Add case note
+ * @link http://wiki.processmaker.com/index.php/ProcessMaker_Functions#WSAddCaseNote.28.29
+ *
+ * @param string(32) | $caseUid | ID of the case | The unique ID of the case.
+ * @param string(32) | $processUid | ID of the process | The unique ID of the process.
+ * @param string(32) | $taskUid | ID of the task | The unique ID of the task.
+ * @param string(32) | $userUid | ID user | The unique ID of the user who will add note case.
+ * @param string | $note | Note of the case | Note of the case.
+ * @param int | $sendMail = 1 | Send mail | Optional parameter. If set to 1, will send an email to all participants in the case.
+ * @return array | $response | WS array | A WS Response associative array.
+ *
+ */
+function WSAddCaseNote($caseUid, $processUid, $taskUid, $userUid, $note, $sendMail = 1)
+{
+    $client = WSOpen();
+
+    $sessionId = $_SESSION["WS_SESSION_ID"];
+
+    $params = array(
+        "sessionId"  => $sessionId,
+        "caseUid"    => $caseUid,
+        "processUid" => $processUid,
+        "taskUid"    => $taskUid,
+        "userUid"    => $userUid,
+        "note"       => $note,
+        "sendMail"   => $sendMail
+    );
+
+    $result = $client->__soapCall("addCaseNote", array($params));
+
+    $response = array();
+    $response["status_code"] = $result->status_code;
+    $response["message"]     = $result->message;
+    $response["time_stamp"]  = $result->timestamp;
 
     return $response;
 }
@@ -1853,6 +1950,34 @@ function PMFUpdateUser ($userUid, $userName, $firstName = null, $lastName = null
 
 /**
  *
+ * @method Retrieves information about a user with a given ID.
+ *
+ * @name PMFInformationUser
+ * @label PMF Information User
+ * @link http://wiki.processmaker.com/index.php/ProcessMaker_Functions#PMFInformationUser.28.29
+ *
+ * @param string(32) | $userUid | User UID | The user UID.
+ * @return array | $info | Information of user | An associative array with Information.
+ *
+ */
+function PMFInformationUser($userUid)
+{
+    G::LoadClass("wsBase");
+
+    $ws = new wsBase();
+    $result = $ws->informationUser($userUid);
+
+    $info = array();
+
+    if ($result->status_code == 0 && isset($result->info)) {
+        $info = $result->info;
+    }
+
+    return $info;
+}
+
+/**
+ *
  * @method Creates a random string of letters and/or numbers of a specified length,which
  * can be used as the PINs (public identification numbers) and codes for cases.
  *
@@ -2357,6 +2482,36 @@ function PMFUnpauseCase ($caseUid, $delIndex, $userUid)
 
     $ws = new wsBase();
     $result = $ws->unpauseCase( $caseUid, $delIndex, $userUid );
+
+    if ($result->status_code == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+/**
+ *
+ * @method Add case note.
+ *
+ * @name PMFAddCaseNote
+ * @label PMF Add case note
+ *
+ * @param string(32) | $caseUid | ID of the case | The unique ID of the case.
+ * @param string(32) | $processUid | ID of the process | The unique ID of the process.
+ * @param string(32) | $taskUid | ID of the task | The unique ID of the task.
+ * @param string(32) | $userUid | ID user | The unique ID of the user who will add note case.
+ * @param string | $note | Note of the case | Note of the case.
+ * @param int | $sendMail = 1 | Send mail | Optional parameter. If set to 1, will send an email to all participants in the case.
+ * @return int | $result | Result of the add case note | Returns 1 if the note has been added to the case.; otherwise, returns 0 if an error occurred.
+ *
+ */
+function PMFAddCaseNote($caseUid, $processUid, $taskUid, $userUid, $note, $sendMail = 1)
+{
+    G::LoadClass("wsBase");
+
+    $ws = new wsBase();
+    $result = $ws->addCaseNote($caseUid, $processUid, $taskUid, $userUid, $note, $sendMail);
 
     if ($result->status_code == 0) {
         return 1;
