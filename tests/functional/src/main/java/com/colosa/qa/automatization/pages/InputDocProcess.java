@@ -40,4 +40,12 @@ public class InputDocProcess extends Page{
 
 	}
 
+	
+	public void openCaseFrame() throws Exception{
+		Browser.driver().switchTo().defaultContent();
+		Browser.driver().switchTo().frame("casesFrame");
+		Browser.driver().switchTo().frame("casesSubFrame");
+		Browser.driver().switchTo().frame("openCaseFrame");
+	 }
+
 }
