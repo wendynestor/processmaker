@@ -69,7 +69,7 @@ public class ProcessDesigner extends Page{
 		Browser.driver().switchTo().defaultContent();
 		Browser.driver().switchTo().frame("frameMain");
 		Browser.getElement("processDesigner.webElement.menuItems."+option.getId()).click();
-		//Browser.driver().switchTo().defaultContent();
+		Browser.driver().switchTo().defaultContent();
 	}
 
 	private void openDynaforms() throws Exception{
