@@ -29,10 +29,7 @@ public class TriggersProcess extends Page{
 	/**
 	* @param triggerTitle string, triggerDescription string, triggerWebbot string
 	*/
-	public static void newCustomTrigger(String triggerTitle, String triggerDescription, String triggerWebbot) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newCustomTrigger(String triggerTitle, String triggerDescription, String triggerWebbot) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.newCustomTrigger").click();
 		Browser.getElement("triggers.webElemet.title").sendKeys(triggerTitle);
@@ -45,10 +42,7 @@ public class TriggersProcess extends Page{
 	* @param arg Array of arguments. The order is: Template name, Trigger Title, Trigger description... 
 	* The arguments must be in order from top to down. 
 	*/
-	public static void newPMFTrigger(String... args) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newPMFTrigger(String... args) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.ProcessmakerFunctions.OpenTree").click();
 		Browser.getElement("triggers.webElement." + args[0] + ".New").click();
@@ -112,10 +106,7 @@ public class TriggersProcess extends Page{
 	* @param arg Array of arguments. The order is: Template name, Trigger Title, Trigger description, Alfreco server, Alfresco user, Alfresco password... 
 	* The arguments must be in order from top to down. 
 	*/
-	public static void newAlfrescoDMTrigger(String... args) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newAlfrescoDMTrigger(String... args) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.AlfrescoDM.OpenTree").click();
 		Browser.getElement("triggers.webElement." + args[0] + ".New").click();
@@ -169,10 +160,7 @@ public class TriggersProcess extends Page{
 	* @param arg Array of arguments. The order is: Template name, Trigger Title, Trigger description, Sharepint server, Sharepoint auth, Sharepoint DWS Name... 
 	* The arguments must be in order from top to down. 
 	*/
-	public static void newSharepointDWSTrigger(String... args) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newSharepointDWSTrigger(String... args) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.SharepointDWS.OpenTree").click();
 		Browser.getElement("triggers.webElement." + args[0] + ".New").click();
@@ -202,10 +190,7 @@ public class TriggersProcess extends Page{
 	* @param arg Array of arguments. The order is: Template name, Trigger Title, Trigger description, Sugar soap, Sugar user, Sugar Password... 
 	* The arguments must be in order from top to down. 
 	*/
-	public static void newSugarCRMTrigger(String... args) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newSugarCRMTrigger(String... args) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.SugarCRM.OpenTree").click();
 		Browser.getElement("triggers.webElement." + args[0] + ".New").click();
@@ -231,10 +216,7 @@ public class TriggersProcess extends Page{
 	* @param arg Array of arguments. The order is: Template name, Trigger Title, Trigger description...
 	* The arguments must be in order from top to down. 	
 	*/
-	public static void newTalendTrigger(String... args) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newTalendTrigger(String... args) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.Talend.OpenTree").click();
 		Browser.getElement("triggers.webElement." + args[0] + ".New").click();
@@ -258,10 +240,7 @@ public class TriggersProcess extends Page{
 	* @param arg Array of arguments. The order is: Template name, Trigger Title, Trigger description, Zimbra server, Zimbra user, Zimbra Auth... 
 	* The arguments must be in order from top to down. 
 	*/
-	public static void newZimbraTrigger(String... args) throws FileNotFoundException, IOException, Exception{
-		Browser.driver().switchTo().defaultContent();
-		Browser.driver().switchTo().frame("frameMain");
-		ProcessDesigner.openTriggers();
+	public void newZimbraTrigger(String... args) throws FileNotFoundException, IOException, Exception{
 		Browser.getElement("processDesigner.webElement.panelNewButton").click();
 		Browser.getElement("triggers.webElement.Zimbra.OpenTree").click();
 		Browser.getElement("triggers.webElement." + args[0] + ".New").click();
