@@ -1,4 +1,4 @@
-package com.colosa.qa.automatization.tests.withParallelCondition;
+package com.colosa.qa.automatization.tests.processDesigner;
 
 import org.junit.Assert;
 import org.junit.AfterClass;
@@ -19,7 +19,7 @@ public class TestWithParallelCondition{
 		Pages.Login().gotoUrl();
 		Pages.Login().loginUser("admin", "admin", "workflow");
 		Pages.Main().goDesigner();		
-		Pages.ProcessList().newProcess("Prueba 10","");
+		Pages.ProcessList().newProcess("Prueba 17","");
 		Assert.assertTrue(Pages.Designer().createTask());
 		Pages.Designer().moveTask("Task 1", -100, -300);
 		Assert.assertTrue(Pages.Designer().createTask());

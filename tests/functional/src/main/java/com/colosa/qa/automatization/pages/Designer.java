@@ -35,7 +35,7 @@ public class Designer{
 		String taskName = "Task ";
 		int tNum = taskNum + 1; 
 		Actions action = new Actions(Browser.driver());
-		Thread.sleep(5000);
+		Browser.waitForElement(By.className("processmap_title___processmaker"),15);
 		WebElement gridPanel = Browser.driver().findElement(By.id("pm_target"));
 		action.contextClick(gridPanel).perform();
 
@@ -111,6 +111,9 @@ public class Designer{
 		WebElement task1 = getTask(taskName1);
 		WebElement task2 = getTask(taskName2[0]);
 
+		if(task1==null||task2==null)
+			throw new Exception();
+
 		Browser.driver().switchTo().defaultContent();
 		Browser.driver().switchTo().frame("frameMain");
 
@@ -131,6 +134,9 @@ public class Designer{
 		WebElement task1 = getTask(taskName1);
 		WebElement task2 = getTask(taskName2[0]);
 
+		if(task1==null||task2==null)
+			throw new Exception();
+
 		Browser.driver().switchTo().defaultContent();
 		Browser.driver().switchTo().frame("frameMain");
 
@@ -141,14 +147,18 @@ public class Designer{
 		(new Actions(Browser.driver())).dragAndDropBy(task2, 0, 0).build().perform();
 
 		editCondition(taskName1, taskName2, 3);
-
+				
 		return true;
+				
 	}
 
 	public boolean parallelByEvaluation(String taskName1, String[] taskName2)  throws Exception{
 
 		WebElement task1 = getTask(taskName1);
 		WebElement task2 = getTask(taskName2[0]);
+
+		if(task1==null||task2==null)
+			throw new Exception();
 
 		Browser.driver().switchTo().defaultContent();
 		Browser.driver().switchTo().frame("frameMain");
@@ -160,7 +170,7 @@ public class Designer{
 		(new Actions(Browser.driver())).dragAndDropBy(task2, 0, 0).build().perform();
 
 		editCondition(taskName1, taskName2, 4);
-
+		
 		return true;
 
 	}
@@ -169,6 +179,9 @@ public class Designer{
 
 		WebElement task1 = getTask(taskName1);
 		WebElement task2 = getTask(taskName2);
+
+		if(task1==null||task2==null)
+			throw new Exception();
 
 		Browser.driver().switchTo().defaultContent();
 		Browser.driver().switchTo().frame("frameMain");
@@ -179,13 +192,16 @@ public class Designer{
 
 		(new Actions(Browser.driver())).dragAndDropBy(task2, 0, 0).build().perform();
 
-
 		return true;
+		
 	}
 
 	public boolean endTask(String taskName) throws Exception{
 
 		WebElement task = getTask(taskName);
+
+		if(task==null)
+			throw new Exception();
 
 		Browser.driver().switchTo().defaultContent();
 		Browser.driver().switchTo().frame("frameMain");
@@ -277,8 +293,8 @@ public class Designer{
 		if(founded == true)
 		{
 			System.out.println("Xpath: "+elements[i][1]);
-			WebElement el = Browser.driver().findElement(By.xpath(elements[i][1]));
-			Thread.sleep(5000);
+			Browser.waitForElement(By.xpath(elements[i][1]),5);
+			WebElement el = Browser.driver().findElement(By.xpath(elements[i][1]));			
 			el.click();
 		}
 		else
@@ -290,11 +306,8 @@ public class Designer{
 		{
 			for(int l=0;l<arrayTasks.length-1;l++)
 			{
-				System.out.println("Path: "+namePath);
-				
-					
+				Browser.waitForElement(By.id("form["+namePath+"][addLink]"),5);
 				btnAdd = Browser.driver().findElement(By.id("form["+namePath+"][addLink]"));
-				Thread.sleep(5000);
 				btnAdd.click();
 			}
 
