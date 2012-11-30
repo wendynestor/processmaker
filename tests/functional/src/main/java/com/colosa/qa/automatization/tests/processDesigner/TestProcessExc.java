@@ -19,13 +19,13 @@ public class TestProcessExc{
 		Pages.Login().loginUser("admin", "admin", "workflow");
 		Pages.Main().goDesigner();
 		Pages.ProcessList().newProcess("TestNewProcess"+new java.util.Date().toString(), "just another test process");
-		//Assert.assertTrue(Pages.ProcessDesigner().inPage());
-		Pages.Designer().createTask();
+		Assert.assertTrue(Pages.Designer().createTask());
 		Pages.Designer().moveTask("Task 1", -100, -300);
-		Pages.Designer().createTask();
+		Assert.assertTrue(Pages.Designer().createTask());
 		Pages.Designer().moveTask("Task 2", -300, -150);
-		Pages.Designer().initialTask("Task 1");
-		Pages.Designer().sequential("Task 1", "Task 2");
-		Pages.Designer().endTask("Task 2");
+		Assert.assertTrue(Pages.Designer().initialTask("Task 1"));
+		Assert.assertTrue(Pages.Designer().sequential("Task 1", "Task 2"));
+		Assert.assertTrue(Pages.Designer().endTask("Task 2"));
+                
 	}
 }
