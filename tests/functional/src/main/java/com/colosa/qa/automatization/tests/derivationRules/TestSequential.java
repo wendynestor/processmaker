@@ -55,8 +55,10 @@ public class TestSequential{
 	fieldArray[5].fieldType = "button";
 	fieldArray[5].fieldValue = "";
 	FormFiller.formFillElements(fieldArray);
+	Assert.assertTrue("The button Continue does not exit in this form", Browser.elementExists("inputDocProcess.webelement.continue"));
 	Pages.InputDocProcess().continuebtn();
-	Pages.Home().openCase(caseNumber);	
+	Assert.assertTrue("The case does not exist in this Inbox", Pages.Home().existCase(caseNumber));		
+	Pages.Home().openCase(caseNumber);
 	Pages.InputDocProcess().openCaseFrame();
 	FormFieldData[] fieldArray2 = new FormFieldData[1];
 	fieldArray2[0] = new FormFieldData();
@@ -65,7 +67,9 @@ public class TestSequential{
 	fieldArray2[0].fieldType = "button";
 	fieldArray2[0].fieldValue = "";
 	FormFiller.formFillElements(fieldArray2);
+	Assert.assertTrue("The button Continue does not exit in this form", Browser.elementExists("inputDocProcess.webelement.continue"));
 	Pages.InputDocProcess().continuebtn();
+	Assert.assertTrue("The case does not exist in this Inbox", Pages.Home().existCase(caseNumber));
 	Pages.Home().openCase(caseNumber);	
 	Pages.InputDocProcess().openCaseFrame();
 	FormFieldData[] fieldArray3 = new FormFieldData[1];
@@ -75,6 +79,7 @@ public class TestSequential{
 	fieldArray3[0].fieldType = "button";
 	fieldArray3[0].fieldValue = "";
 	FormFiller.formFillElements(fieldArray3);
+	Assert.assertTrue("The button Continue does not exit in this form", Browser.elementExists("inputDocProcess.webelement.continue"));
 	Pages.InputDocProcess().continuebtn();	
 
 }

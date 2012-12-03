@@ -54,8 +54,10 @@ public class TestSelfService{
 	fieldArray[5].fieldType = "button";
 	fieldArray[5].fieldValue = "";
 	FormFiller.formFillElements(fieldArray);
+	Assert.assertTrue("The button Continue does not exit in this form", Browser.elementExists("inputDocProcess.webelement.continue"));	
 	Pages.InputDocProcess().continuebtn();
-	Pages.Home().gotoUnassigned();		
+	Pages.Home().gotoUnassigned();	
+	Assert.assertTrue("The case does not exist in Unassigned", Pages.Home().existCase(caseNumber));		
 	Pages.Home().openCase(caseNumber);	
 	Pages.InputDocProcess().openCaseFrame();
 	FormFieldData[] fieldArray2 = new FormFieldData[1];
@@ -73,8 +75,10 @@ public class TestSelfService{
 	fieldArray4[0].fieldType = "button";
 	fieldArray4[0].fieldValue = "";
 	FormFiller.formFillElements(fieldArray4);
+	Assert.assertTrue("The button Continue does not exit in this form", Browser.elementExists("inputDocProcess.webelement.continue"));	
 	Pages.InputDocProcess().continuebtn();
 	Pages.Home().gotoInbox();
+	Assert.assertTrue("The case does not exist in inbox", Pages.Home().existCase(caseNumber));	
 	Pages.Home().openCase(caseNumber);	
 	Pages.InputDocProcess().openCaseFrame();
 	FormFieldData[] fieldArray3 = new FormFieldData[1];
@@ -84,6 +88,7 @@ public class TestSelfService{
 	fieldArray3[0].fieldType = "button";
 	fieldArray3[0].fieldValue = "";
 	FormFiller.formFillElements(fieldArray3);
+	Assert.assertTrue("The button Continue does not exit in this form", Browser.elementExists("inputDocProcess.webelement.continue"));
 	Pages.InputDocProcess().continuebtn();	
 
 }
