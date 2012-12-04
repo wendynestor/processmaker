@@ -61,4 +61,27 @@ public class Pages{
 
 		return outputdDocList;
 	}
+
+	public static DynaformDesigner DynaformDesigner() throws Exception{
+		
+		return new DynaformDesigner();
+	}
+
+	public static TriggersProcess TriggersProcess() throws Exception{
+		TriggersProcess triggerProcess = new TriggersProcess();
+
+		return triggerProcess;
+	}
+
+	public static Designer Designer() throws Exception{
+		Designer designer = new Designer();
+
+		return designer;
+	}	
+
+	public static TaskProperties TaskProperties() throws Exception{
+		TaskProperties taskProperties = new TaskProperties();
+
+		return taskProperties;
+	}
 }
