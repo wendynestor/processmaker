@@ -71,8 +71,10 @@ if (file_exists($requestFile)) {
     if($pos < $size) {
         //if this file got an extension then assign the content
     	$ext_file = substr($request, $pos, $size);
-        if ($ext_file == "gif" || $ext_file == "png" || $ext_file == "jpg") {
+        if ($ext_file == "gif" || $ext_file == "png") {
             $ext_file = 'image/'.$ext_file ;
+        } elseif ($ext_file == "jpg" || $ext_file == "jpeg") {
+            $ext_file = 'image/jpeg';
         } elseif ($ext_file == "swf") {
             $ext_file = "application/x-shockwave-flash";
         } elseif ($ext_file == "json" || $ext_file == "htc" ) {
@@ -173,15 +175,10 @@ if (file_exists( FILE_PATHS_INSTALLED )) {
     // smarty constants
     define( 'PATH_SMARTY_C', PATH_C . 'smarty' . PATH_SEP . 'c' );
     define( 'PATH_SMARTY_CACHE', PATH_C . 'smarty' . PATH_SEP . 'cache' );
-/* To do:
-    if (! is_dir( PATH_SMARTY_C )) {
-        G::mk_dir( PATH_SMARTY_C );
-    }
-
-    if (! is_dir( PATH_SMARTY_CACHE )) {
-        G::mk_dir( PATH_SMARTY_CACHE );
-    }
-    */
+    
+    /* TO DO: put these line in other part of code*/
+    Bootstrap::verifyPath ( PATH_SMARTY_C,     true );
+    Bootstrap::verifyPath ( PATH_SMARTY_CACHE, true );
 }
 
 // set include path
@@ -370,6 +367,8 @@ if (Bootstrap::virtualURI( $_SERVER['REQUEST_URI'], $virtualURITable, $realPath 
 // the request correspond to valid php page, now parse the URI
 Bootstrap::parseURI( getenv( "REQUEST_URI" ), $isRestRequest );
 
+//Bootstrap::mylog("sys_temp: ".SYS_TEMP);
+
 if (Bootstrap::isPMUnderUpdating()) {
     header( "location: /update/updating.php" );
     if (DEBUG_TIME_LOG)
@@ -413,6 +412,7 @@ Bootstrap::registerClass('DBTable',      PATH_GULLIVER . "class.dbtable.php");
 Bootstrap::registerClass('xmlMenu',      PATH_GULLIVER . "class.xmlMenu.php");
 Bootstrap::registerClass('XmlForm_Field_XmlMenu', PATH_GULLIVER . "class.xmlMenu.php");
 Bootstrap::registerClass('XmlForm_Field_HTML',  PATH_GULLIVER . "class.dvEditor.php");
+Bootstrap::registerClass('XmlForm_Field_WYSIWYG_EDITOR',  PATH_GULLIVER . "class.wysiwygEditor.php");
 Bootstrap::registerClass('Controller',          PATH_GULLIVER . "class.controller.php");
 Bootstrap::registerClass('HttpProxyController', PATH_GULLIVER . "class.httpProxyController.php");
 Bootstrap::registerClass('templatePower',            PATH_GULLIVER . "class.templatePower.php");
@@ -426,7 +426,7 @@ Bootstrap::registerClass('Calendar',     PATH_HOME . "engine/classes/class.calen
 Bootstrap::registerClass('processMap',   PATH_HOME . "engine/classes/class.processMap.php");
 
 //DATABASE propel classes used in 'Cases' Options
-Bootstrap::registerClass('Entity_Base',         PATH_HOME . "engine/classes/entities/Base.php");
+Bootstrap::registerClass('Entity_Base',        PATH_HOME . "engine/classes/entities/Base.php");
 
 Bootstrap::registerClass('BaseContent',        PATH_HOME . "engine/classes/model/om/BaseContent.php");
 Bootstrap::registerClass('Content',            PATH_HOME . "engine/classes/model/Content.php");
@@ -455,6 +455,7 @@ Bootstrap::registerClass('BaseAdditionalTables',PATH_HOME . "engine/classes/mode
 Bootstrap::registerClass('AdditionalTables',   PATH_HOME . "engine/classes/model/AdditionalTables.php");
 Bootstrap::registerClass('BaseAppCacheView',   PATH_HOME . "engine/classes/model/om/BaseAppCacheView.php");
 Bootstrap::registerClass('AppCacheView',       PATH_HOME . "engine/classes/model/AppCacheView.php");
+Bootstrap::registerClass('BaseAppCacheViewPeer',PATH_HOME . "engine/classes/model/om/BaseAppCacheViewPeer.php");
 Bootstrap::registerClass('AppCacheViewPeer',   PATH_HOME . "engine/classes/model/AppCacheViewPeer.php");
 
 Bootstrap::registerClass('BaseInputDocument',  PATH_HOME . "engine/classes/model/om/BaseInputDocument.php");
@@ -522,6 +523,9 @@ Bootstrap::registerClass('DynaformPeer',       PATH_HOME . "engine/classes/model
 Bootstrap::registerClass('BaseEvent',          PATH_HOME . "engine/classes/model/om/BaseEvent.php");
 Bootstrap::registerClass('Event',              PATH_HOME . "engine/classes/model/Event.php");
 
+Bootstrap::registerClass('BaseEventPeer',      PATH_HOME . "engine/classes/model/om/BaseEventPeer.php");
+Bootstrap::registerClass('EventPeer',          PATH_HOME . "engine/classes/model/EventPeer.php");
+
 Bootstrap::registerClass('BaseFields',         PATH_HOME . "engine/classes/model/om/BaseFields.php");
 Bootstrap::registerClass('Fields',             PATH_HOME . "engine/classes/model/Fields.php");
 
@@ -563,6 +567,9 @@ Bootstrap::registerClass('Process',             PATH_HOME . "engine/classes/mode
 Bootstrap::registerClass('BaseProcessUser',     PATH_HOME . "engine/classes/model/om/BaseProcessUser.php");
 Bootstrap::registerClass('ProcessUser',         PATH_HOME . "engine/classes/model/ProcessUser.php");
 
+Bootstrap::registerClass('BaseProcessUserPeer', PATH_HOME . "engine/classes/model/om/BaseProcessUserPeer.php");
+Bootstrap::registerClass('ProcessUserPeer',     PATH_HOME . "engine/classes/model/ProcessUserPeer.php");
+
 Bootstrap::registerClass('BaseReportTable',     PATH_HOME . "engine/classes/model/om/BaseReportTable.php");
 Bootstrap::registerClass('ReportTable',         PATH_HOME . "engine/classes/model/ReportTable.php");
 Bootstrap::registerClass('ReportTablePeer',     PATH_HOME . "engine/classes/model/ReportTablePeer.php");
@@ -580,6 +587,9 @@ Bootstrap::registerClass('StepPeer',            PATH_HOME . "engine/classes/mode
 
 Bootstrap::registerClass('BaseStepSupervisor',  PATH_HOME . "engine/classes/model/om/BaseStepSupervisor.php");
 Bootstrap::registerClass('StepSupervisor',      PATH_HOME . "engine/classes/model/StepSupervisor.php");
+
+Bootstrap::registerClass('BaseStepSupervisorPeer',PATH_HOME . "engine/classes/model/om/BaseStepSupervisorPeer.php");
+Bootstrap::registerClass('StepSupervisorPeer',  PATH_HOME . "engine/classes/model/StepSupervisorPeer.php");
 
 Bootstrap::registerClass('BaseStepTrigger',     PATH_HOME . "engine/classes/model/om/BaseStepTrigger.php");
 Bootstrap::registerClass('StepTrigger',         PATH_HOME . "engine/classes/model/StepTrigger.php");
@@ -618,6 +628,7 @@ Bootstrap::registerClass('IsoCountry',          PATH_HOME . "engine/classes/mode
 Bootstrap::registerClass('BaseIsoSubdivision',  PATH_HOME . "engine/classes/model/om/BaseIsoSubdivision.php");
 Bootstrap::registerClass('IsoSubdivision',      PATH_HOME . "engine/classes/model/IsoSubdivision.php");
 Bootstrap::registerClass('BaseIsoLocation',     PATH_HOME . "engine/classes/model/om/BaseIsoLocation.php");
+Bootstrap::registerClass('IsoLocation',         PATH_HOME . "engine/classes/model/IsoLocation.php");
 Bootstrap::registerClass('Users',               PATH_HOME . "engine/classes/model/Users.php");
 Bootstrap::registerClass('UsersPeer',           PATH_HOME . "engine/classes/model/UsersPeer.php");
 
@@ -625,13 +636,7 @@ Bootstrap::registerClass('Xml_Node',            PATH_GULLIVER . "class.xmlDocume
 
 require_once  PATH_THIRDPARTY . '/pear/PEAR.php';
 
-//Bootstrap::registerClass('Cases',               PATH_HOME . "engine/classes/class.case.php");
-//Bootstrap::registerClass('configuration',       PATH_HOME . "engine/classes/class.configuration.php");
-
-//Bootstrap::registerClass('LoginLog',          PATH_HOME . "engine/classes/model/LoginLog.php");
-//Bootstrap::registerClass('LoginLogPeer',      PATH_HOME . "engine/classes/model/LoginLogPeer.php");
-
-  //Bootstrap::LoadSystem( 'pmException' );
+//Bootstrap::LoadSystem( 'pmException' );
 
 // Create headPublisher singleton
 //Bootstrap::LoadSystem( 'headPublisher' );
