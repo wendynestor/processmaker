@@ -44,6 +44,7 @@ public class InputDocProcess extends Page{
 			nextBtn.click();
 			return true;
 			}
+			
 	}
 
 
