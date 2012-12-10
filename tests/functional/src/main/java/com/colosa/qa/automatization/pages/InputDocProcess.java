@@ -20,6 +20,10 @@ public class InputDocProcess extends Page{
 
 	public void uploadFile(String filePath, String description) throws Exception{
 
+		Browser.driver().switchTo().defaultContent();
+		Browser.driver().switchTo().frame("casesFrame");
+		Browser.driver().switchTo().frame("casesSubFrame");
+		Browser.driver().switchTo().frame("openCaseFrame");
 		Browser.getElement("inputDocProcess.webelement.new").click();
 	
 		Browser.getElement("inputDocProcess.webelement.path").sendKeys(filePath);
@@ -30,11 +34,19 @@ public class InputDocProcess extends Page{
 
 	}
 
-	public void continuebtn() throws Exception{
+	public boolean continuebtn() throws Exception{
 
-		Browser.getElement("inputDocProcess.webelement.continue").click();
+		WebElement nextBtn = Browser.getElement("inputDocProcess.webelement.continue");
 
+		if(nextBtn==null)
+			throw new Exception("The element is not found");
+		else{
+			nextBtn.click();
+			return true;
+			}
+			
 	}
+
 
 	public void openCaseFrame() throws Exception{
 
@@ -42,6 +54,7 @@ public class InputDocProcess extends Page{
 		Browser.driver().switchTo().frame("casesFrame");
 		Browser.driver().switchTo().frame("casesSubFrame");
 		Browser.driver().switchTo().frame("openCaseFrame");
-	}
+		
+	 }
 
 }
